@@ -1,7 +1,21 @@
 import express from 'express'
 import bodyParser from 'body-parser'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import { appDataSource } from './src/data-source'
 
 const PORT = 5000
+
+dotenv.config({path: '../.env'});
+
+appDataSource.initialize()
+    .then(() => {
+    console.log("Data Source has been initialized!")
+    }).catch((err) => {
+    console.error("Error during Data Source initialization:", err)
+})
+
+console.log(process.env.PGHOST)
 
 const app = express()
 
@@ -11,6 +25,8 @@ app.use(
       extended: true,
     })
 );
+
+app.use(cors())
 
 const auth_router = require('./src/routes/test.router')
 

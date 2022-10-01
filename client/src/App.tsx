@@ -1,11 +1,28 @@
+import { useEffect, useState } from 'react'
 import './App.css' 
 
-function App() {
-  return (
-    <div className="App">
-        <h1>Hello World</h1>
-    </div>
-  )
+interface Data {
+    user: string
 }
 
-export default App
+function App() {
+    
+    const [data, setData] = useState<Data[]>()
+
+    useEffect(()=> {
+        fetch('/api/')
+        .then(response => response.json())
+        .then(data => setData(data))
+    }, [])
+    
+    return (
+        <div className="App">
+            {data ? data.map(data =>
+            <p>{data.user}</p>) : <p>Loading</p>
+            }
+        </div>
+        )
+    }
+    
+    export default App
+    

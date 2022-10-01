@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.route('/').get(async (req: Request, res: Response) => {
     
-    return res.status(200).json({"Status": "Success"})
+    return res.status(200).json([{"user": "bob"}, {"user": "steve"}])
 })
 
 router.route('/').post(async (req: Request, res: Response) => {
