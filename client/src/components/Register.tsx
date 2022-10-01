@@ -1,14 +1,15 @@
-import { FormEvent, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { FormEvent, useContext } from "react"
+import AppContext from "../AppContext";
 
 export default function Register() {
     
-    const [email, setEmail] = useState<string>('');
-    const [username, setUsername] = useState<string>('');
-    const [password, setPassword] = useState<string>('');
+    const { 
+        email, setEmail, 
+        username, setUsername, 
+        password, setPassword,
+        navigate 
+    } = useContext(AppContext)
 
-    const navigate = useNavigate();
-        
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
 
@@ -23,7 +24,7 @@ export default function Register() {
             }
             
             if (response.status === 200) {
-                navigate('/login')
+                navigate?.('/login')
             }
         });
     }
@@ -32,9 +33,21 @@ export default function Register() {
     <div className="register">
         <h1>Register</h1>        
         <form onSubmit={e => handleSubmit(e)}>
-            <input placeholder="email" type="email" onChange={e => setEmail(e.target.value)}></input>
-            <input placeholder="username" type="text" onChange={e => setUsername(e.target.value)}></input>
-            <input placeholder="password" type="password" onChange={e => setPassword(e.target.value)}></input>
+            <input 
+                placeholder="email" 
+                type="email" 
+                onChange={e => setEmail?.(e.target.value)}>
+            </input>
+            <input 
+                placeholder="username" 
+                type="text" 
+                onChange={e => setUsername?.(e.target.value)}>
+            </input>
+            <input 
+                placeholder="password" 
+                type="password" 
+                onChange={e => setPassword?.(e.target.value)}>
+            </input>
             <button>Submit</button>
         </form>
     </div>)

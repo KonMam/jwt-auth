@@ -1,17 +1,20 @@
-import { FormEvent, useState } from "react"
-import { useNavigate } from "react-router-dom";
+import { FormEvent, useContext, } from "react"
+import AppContext from "../AppContext";
 
 export default function Login() {
 
-    const [username, setUsername] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const navigate = useNavigate();
+    const { 
+        username, setUsername, 
+        password, setPassword,
+        navigate 
+    } = useContext(AppContext)
         
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
 
         fetch('/api/login',{
-            method: 'POST',headers: {
+            method: 'POST',
+            headers: {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({username, password})
@@ -19,9 +22,11 @@ export default function Login() {
             if (response.status === 401) {
                 alert('Incorrect details provided.')
             }
-            
             if (response.status === 200) {
-                navigate('/')
+                if (username) {
+                    localStorage.setItem('authenticated', username)
+                }
+                navigate?.('/hidden-resource')
             }
         })
     }
@@ -33,12 +38,12 @@ export default function Login() {
             <input
                 placeholder="username" 
                 type="text" 
-                onChange={e => setUsername(e.target.value)}>
+                onChange={e => setUsername?.(e.target.value)}>
             </input>
             <input 
                 placeholder="password" 
                 type="password" 
-                onChange={e => setPassword(e.target.value)}>
+                onChange={e => setPassword?.(e.target.value)}>
             </input>
             <button>Submit</button>
         </form>

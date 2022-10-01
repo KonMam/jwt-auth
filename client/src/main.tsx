@@ -8,6 +8,7 @@ import {
 
 import App from './App'
 import HiddenResource from './components/HiddenResource';
+import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/Register';
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
       children: [
         {
             path: "/",
+            element: <Home/>,
+        },
+        {
+            path: "/hidden-resource",
             element: <HiddenResource/>,
         },
         {
