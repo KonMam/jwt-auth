@@ -1,28 +1,16 @@
 import { useEffect, useState } from 'react'
+import { Outlet } from 'react-router-dom'
 import './App.css' 
+import Nav from './components/Nav'
 
-interface Data {
-    user: string
-}
-
-function App() {
-    
-    const [data, setData] = useState<Data[]>()
-
-    useEffect(()=> {
-        fetch('/api/')
-        .then(response => response.json())
-        .then(data => setData(data))
-    }, [])
+export default function App() {
     
     return (
         <div className="App">
-            {data ? data.map(data =>
-            <p>{data.user}</p>) : <p>Loading</p>
-            }
+            <Nav/>
+            <div id="detail">
+                <Outlet/>
+            </div>
         </div>
         )
-    }
-    
-    export default App
-    
+}

@@ -28,7 +28,7 @@ app.use(
 
 app.use(cors())
 
-const auth_router = require('./src/routes/test.router')
+const auth_router = require('./src/routes/auth.router')
 
 app.use('/', auth_router)
 
