@@ -1,0 +1,26 @@
+[
+    {
+        "title": "Task 1",
+        "description": "Clean your room.",
+        "status": "To Do",
+        "date": "2022-10-02"
+    },
+    {
+        "title": "Task 2",
+        "description": "Program KanBan board.",
+        "status": "In Progress",
+        "date": "2022-10-01"
+    },
+    {
+        "title": "Task 3",
+        "description": "Drink some coffee.",
+        "status": "Completed",
+        "date": "2022-09-31"
+    },
+    {
+        "title": "Task 4",
+        "description": "Read a book.",
+        "status": "To Do",
+        "date": "2022-10-02"
+    }
+]

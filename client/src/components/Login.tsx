@@ -26,7 +26,7 @@ export default function Login() {
                 if (username) {
                     localStorage.setItem('authenticated', username)
                 }
-                navigate?.('/hidden-resource')
+                navigate?.('/board')
             }
         })
     }

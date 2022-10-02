@@ -61,3 +61,28 @@ button {
     justify-content: center;
 }
 
+.kanban {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 2rem;
+    width: 800px;
+}
+
+.category {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    color: white;
+    background-color: rgb(39, 41, 43);
+    padding: 2rem;
+    width: 30%;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: rgb(56, 58, 59);
+    padding: 1rem;
+    border-radius: 5%;
+}

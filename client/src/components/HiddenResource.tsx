@@ -11,6 +11,7 @@ export default function HiddenResource() {
     } = useContext(AppContext)
 
     const handleSignOut = () => {
+        setLoading?.(true)
         localStorage.clear()
         navigate?.('/login')
     }
