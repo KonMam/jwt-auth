@@ -1,5 +1,5 @@
 import { FormEvent, useContext } from "react"
-import AppContext from "../AppContext";
+import AppContext from "../contexts/AppContext";
 
 export default function Register() {
     

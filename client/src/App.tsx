@@ -3,7 +3,7 @@ import './App.css'
 import Nav from './components/Nav'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import AppContext from './AppContext'
+import AppContext from './contexts/AppContext'
 
 export default function App() {
 

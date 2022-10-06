@@ -1,65 +1,88 @@
 import { useContext, useEffect, useRef, useState, } from "react";
-import AppContext from "../AppContext";
-import Category from "./Category";
-
-type Data = {
-    title?: string;
-    description?: string;
-    status?: string;
-    date?: string;
-}
-
-type dragRef = {
-    index: number;
-    status: string
-    items: Data[];
-    setItems: Function;
-}
+import { TaskContext } from "../contexts/TaskContext";
+import { DataFetch, dragRef } from "../types";
+import TaskList from "./TaskList";
+import TaskForm from "./TaskForm";
+import AppContext from "../contexts/AppContext";
 
 export default function KanBan() {
 
-    const [todo, setToDo] = useState<Data[]>([])
-    const [inprogress, setInprogress] = useState<Data[]>([])
-    const [completed, setCompleted] = useState<Data[]>([])
+    const { 
+        navigate,
+        username,
+        loading, 
+        setLoading 
+    } = useContext(AppContext)
+
+    const [tasks, setTasks] = useState<DataFetch[]>([])
 
     const dragItemRef = useRef<null | dragRef>(null)
     const dragOverItemRef = useRef<null | dragRef>(null)
 
+    const handleSignOut = () => {
+        setLoading?.(true)
+        localStorage.clear()
+        navigate?.('/login')
+    }
+
     useEffect(() => {
-        fetch('/tasks.json')
-        .then(response => response.json())
-        .then((data: Data[]) => {
-            setToDo(data.filter(data => data.status === "To Do"))
-            setInprogress(data.filter(data => data.status === "In Progress"))
-            setCompleted(data.filter(data => data.status === "Completed"))
+
+        setLoading?.(true)
+
+        if (!localStorage.getItem('authenticated')) {
+            navigate?.('/login')
+            return;
+        }
+
+        fetch('/api/refresh',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+              },
+        }).then(response => {
+            if (response.status !== 200) {
+                navigate?.('/login')
+            } else {
+                setLoading?.(false)
+                if (username) {
+                    localStorage.setItem('authenticated', username)
+                }
+            }
         })
+
+        fetch('/api/tasks')
+        .then(response => response.json())
+        .then((data: DataFetch[]) => setTasks(data))
     }, [])
 
-
+    if (loading) {
+        return <></>
+    }
     return (
-        <div className="kanban">
-            <Category 
-                items={todo} 
-                setItems={setToDo} 
-                status="To Do" 
-                dragItemRef={dragItemRef} 
-                dragOverItemRef={dragOverItemRef}
-            />
-            <Category 
-                items={inprogress} 
-                setItems={setInprogress} 
-                status="In Progress" 
-                dragItemRef={dragItemRef} 
-                dragOverItemRef={dragOverItemRef}
-            />
-            <Category 
-                items={completed} 
-                setItems={setCompleted} 
-                status="Completed" 
-                dragItemRef={dragItemRef} 
-                dragOverItemRef={dragOverItemRef}
-            />
-        </div>
+        <TaskContext.Provider value={{tasks, setTasks}}>
+            <div className="board">
+                <button onClick={handleSignOut}>Sign Out</button>
+                <TaskForm/>
+                <div className="list-container">
+                    <TaskList 
+                        title="To Do" 
+                        dragItemRef={dragItemRef} 
+                        dragOverItemRef={dragOverItemRef}
+                    />
+                    <TaskList 
+                        title="In Progress" 
+                        dragItemRef={dragItemRef} 
+                        dragOverItemRef={dragOverItemRef}
+                    />
+                    <TaskList 
+                        title="Completed" 
+                        dragItemRef={dragItemRef} 
+                        dragOverItemRef={dragOverItemRef} 
+                    />
+                </div>
+            </div>
+        </TaskContext.Provider>
     )
 }
 

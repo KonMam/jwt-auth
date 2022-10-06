@@ -22,7 +22,7 @@ router.route('/register').post(async (req: Request, res: Response, next) => {
         try {
             await appDataSource.getRepository(User).insert(newUser)
 
-            const accessToken = sign({ userId: newUser.id, email: newUser.email }, accessSecret, { expiresIn: "30m" });
+            const accessToken = sign({ userId: newUser.id, email: newUser.email}, accessSecret, { expiresIn: "30m" });
             const refreshToken = sign({  userId: newUser.id, email: newUser.email }, refreshSecret, { expiresIn: '15d' });
 
             res.cookie("accessToken", accessToken, { httpOnly: true, 
@@ -58,8 +58,8 @@ router.route('/login').post(async (req: Request, res: Response) => {
     compare(password, existingUser.password, (_err, result) => {
         if (result === true) {        
 
-            const accessToken = sign({ userId: existingUser.id, email: existingUser.email }, accessSecret, { expiresIn: "30m" });
-            const refreshToken = sign({  userId: existingUser.id, email: existingUser.email }, refreshSecret, { expiresIn: '15d' });
+            const accessToken = sign({ id: existingUser.id, email: existingUser.email }, accessSecret, { expiresIn: "30m" });
+            const refreshToken = sign({  id: existingUser.id, email: existingUser.email }, refreshSecret, { expiresIn: '15d' });
 
             res.cookie("accessToken", accessToken, { httpOnly: true, 
                 sameSite: 'none', secure: true, 
@@ -90,8 +90,10 @@ router.route('/refresh').post(async (req, res) => {
 
        const { id, email } = verify(refreshToken, refreshSecret) as JwtPayload
 
+        //console.log(id, email)
+
         const accessToken = sign(
-            { userId: id, email: email },
+            { id: id, email: email },
             accessSecret, 
             { expiresIn: "30m" }
         );
