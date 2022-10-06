@@ -49,11 +49,11 @@ export default function KanBan() {
                     localStorage.setItem('authenticated', username)
                 }
             }
-        })
+        }).then(() => 
+            fetch('/api/tasks')
+            .then(response => response.json())
+            .then((data: DataFetch[]) => setTasks(data)))
 
-        fetch('/api/tasks')
-        .then(response => response.json())
-        .then((data: DataFetch[]) => setTasks(data))
     }, [])
 
     if (loading) {
