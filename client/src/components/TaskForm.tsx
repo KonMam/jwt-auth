@@ -7,7 +7,7 @@ export default function TaskForm() {
     const {tasks, setTasks} = useContext(TaskContext)
 
     const titleRef = useRef<HTMLInputElement | null>(null)
-    const descriptionRef = useRef<HTMLInputElement | null>(null)
+    const descriptionRef = useRef<HTMLTextAreaElement | null>(null)
 
     
     const handleSubmit = (e: React.FormEvent) => {
@@ -26,6 +26,10 @@ export default function TaskForm() {
                     status: "To Do"
                 })
             }).then(data => data.json())
+
+            if (!tasks) {
+                return;
+            }
 
             const tasksCopy = [...tasks]
 
@@ -48,9 +52,22 @@ export default function TaskForm() {
 
     return (
         <form className="task-form" onSubmit={e => handleSubmit(e)}>
-            <input ref={titleRef} placeholder="Title"></input>
-            <input ref={descriptionRef} placeholder="Description"></input>
-            <button>Submit</button>
+            <h2>New Task</h2>
+            <input
+                className="form-field"
+                ref={titleRef} 
+                placeholder="Title">
+            </input>
+            <textarea 
+                className="form-field"
+                ref={descriptionRef} 
+                placeholder="Description">
+            </textarea>
+            <button
+                className="form-button"
+            >
+            Submit
+            </button>
         </form>
     )
 }

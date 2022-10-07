@@ -97,8 +97,8 @@ router.route('/').post(async (req: Request, res: Response, next) => {
 })
 
 router.route('/').put(async (req: Request, res: Response, next) => {
-    
-    const { taskId, newStatus } = req.body
+
+    const task = req.body
 
     const token = req.cookies.accessToken;
     //console.log(token)
@@ -121,17 +121,8 @@ router.route('/').put(async (req: Request, res: Response, next) => {
         return res.status(401).send("User doesn't exists");
     }
 
-    const task = await appDataSource.getRepository(Task).findOneBy({ 
-        id: taskId 
-    })
-
-    if (!task) {
-        return res.status(401).send("Task doesn't exists");
-    }
-
-    task.status = newStatus
-
     try {
+        console.log(task)
         await appDataSource.getRepository(Task).save(task)
     } catch {
         const error = new Error("Error! Something went wrong.");

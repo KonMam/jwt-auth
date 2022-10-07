@@ -14,16 +14,10 @@ export default function KanBan() {
         setLoading 
     } = useContext(AppContext)
 
-    const [tasks, setTasks] = useState<DataFetch[]>([])
+    const [tasks, setTasks] = useState<DataFetch[] | null>([])
 
     const dragItemRef = useRef<null | dragRef>(null)
     const dragOverItemRef = useRef<null | dragRef>(null)
-
-    const handleSignOut = () => {
-        setLoading?.(true)
-        localStorage.clear()
-        navigate?.('/login')
-    }
 
     useEffect(() => {
 
@@ -62,7 +56,6 @@ export default function KanBan() {
     return (
         <TaskContext.Provider value={{tasks, setTasks}}>
             <div className="board">
-                <button onClick={handleSignOut}>Sign Out</button>
                 <TaskForm/>
                 <div className="list-container">
                     <TaskList 

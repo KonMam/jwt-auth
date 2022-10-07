@@ -3,7 +3,7 @@ import { DataFetch, dragRef } from "../types";
 
 
 interface ContextType {
-    tasks: DataFetch[],
+    tasks: DataFetch[] | null,
     setTasks: Function
 }
 
