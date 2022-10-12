@@ -1,4 +1,4 @@
-import { FormEvent, useContext, } from "react"
+import { FormEvent, useContext, useEffect, } from "react"
 import AppContext from "../contexts/AppContext";
 
 export default function Login() {
@@ -8,9 +8,24 @@ export default function Login() {
         password, setPassword,
         navigate 
     } = useContext(AppContext)
-        
+ 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
+
+        if (!password || !username) {
+            alert('Complete all fields.')
+            return;
+        }
+
+        if (password.length <= 8 || password.length >= 15) {
+            alert('Incorrect details provided.')
+            return;
+        }
+
+        if (username.length <= 4 || username.length >= 20) {
+            alert('Incorrect details provided.')
+            return;
+        }
 
         fetch('/api/login',{
             method: 'POST',
@@ -31,21 +46,30 @@ export default function Login() {
         })
     }
 
+    useEffect(() => {          
+        if (localStorage.getItem('authenticated')) {
+            navigate?.('/board')
+            return;
+        }
+    }, [])
+
     return (
-    <div className="login">
-        <h1>Login</h1>
-        <form onSubmit={e => handleSubmit(e)}>
+    <div className="auth-page">
+        <form className="auth-form" onSubmit={e => handleSubmit(e)}>        
+            <h1>Login</h1>
             <input
                 placeholder="username" 
                 type="text" 
+                className="form-field"
                 onChange={e => setUsername?.(e.target.value)}>
             </input>
             <input 
                 placeholder="password" 
                 type="password" 
+                className="form-field"
                 onChange={e => setPassword?.(e.target.value)}>
             </input>
-            <button>Submit</button>
+            <button className="form-button auth-button">Submit</button>
         </form>
     </div>)
 }

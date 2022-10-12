@@ -15,7 +15,6 @@ export default function Nav() {
         navigate?.('/login')
     }
 
-
     const match = useLocation()
     if (match.pathname === "/board") {
         return (

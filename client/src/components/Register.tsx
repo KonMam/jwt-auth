@@ -1,4 +1,4 @@
-import { FormEvent, useContext } from "react"
+import { FormEvent, useContext, useEffect } from "react"
 import AppContext from "../contexts/AppContext";
 
 export default function Register() {
@@ -12,6 +12,21 @@ export default function Register() {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
+
+        if (!password || !email || !username) {
+            alert('Complete all fields.')
+            return;
+        }
+
+        if (password.length <= 8 || password.length >= 15) {
+            alert('Password should be between 8 and 15 characters.')
+            return;
+        }
+
+        if (username.length <= 4 || username.length >= 20) {
+            alert('Username should be between 4 and 20 characters.')
+            return;
+        }
 
         fetch('/api/register',{
             method: 'POST',headers: {
@@ -29,26 +44,36 @@ export default function Register() {
         });
     }
 
+    useEffect(() => {          
+        if (localStorage.getItem('authenticated')) {
+            navigate?.('/board')
+            return;
+        }
+    }, [])
+
     return (
-    <div className="register">
-        <h1>Register</h1>        
-        <form onSubmit={e => handleSubmit(e)}>
+    <div className="auth-page">   
+        <form onSubmit={e => handleSubmit(e)} className="auth-form">
+            <h1>Register</h1>     
             <input 
                 placeholder="email" 
                 type="email" 
-                onChange={e => setEmail?.(e.target.value)}>
+                onChange={e => setEmail?.(e.target.value)}
+                className="form-field">
             </input>
             <input 
                 placeholder="username" 
                 type="text" 
-                onChange={e => setUsername?.(e.target.value)}>
+                onChange={e => setUsername?.(e.target.value)}
+                className="form-field">
             </input>
             <input 
                 placeholder="password" 
                 type="password" 
-                onChange={e => setPassword?.(e.target.value)}>
+                onChange={e => setPassword?.(e.target.value)}
+                className="form-field">
             </input>
-            <button>Submit</button>
+            <button className="form-button auth-button">Submit</button>
         </form>
     </div>)
 }

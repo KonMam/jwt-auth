@@ -4,6 +4,7 @@ import { Secret, sign, verify } from 'jsonwebtoken'
 
 import { User } from '../entities/user.entity'
 import { appDataSource } from '../data-source'
+import { validate } from 'class-validator'
 
 const router = express.Router()
 const accessSecret = process.env.ACCESS_TOKEN_SECRET as Secret
@@ -18,6 +19,12 @@ router.route('/register').post(async (req: Request, res: Response, next) => {
         newUser.username = username
         newUser.email = email
         newUser.password = hash
+
+        const errors = await validate(newUser)
+
+        if (errors.length > 0 || password.length <= 8 || password.length >= 15) {
+            next(new Error(`Validation failed!`))
+        }
         
         try {
             await appDataSource.getRepository(User).insert(newUser)

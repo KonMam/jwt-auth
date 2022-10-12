@@ -7,6 +7,10 @@ import {
     UpdateDateColumn,
     OneToMany
 } from 'typeorm'
+import {
+    Length,
+    IsEmail
+} from 'class-validator'
 
 import { Task } from './task.entity'
 
@@ -17,9 +21,11 @@ export class User {
     id: number
 
     @Column({ unique: true })
+    @Length(4,20)
     username: string
 
     @Column({ unique: true })
+    @IsEmail()
     email: string
 
     @Column()

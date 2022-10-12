@@ -187,33 +187,36 @@ nav {
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
 }
 
-/* h1 {
-    color: white;
-    padding: 2rem 0;
-    font-size: 2.5em;
-}
-
-
-form {
+.auth-form {
     display: flex;
+    background-color: var(--darkblue);
     flex-direction: column;
-    gap: 1.5rem;
+    width: 50%;
+    margin: 0 auto;
+    gap: 1rem;
+    padding: 0.5rem;
+    justify-content: flex-start;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }
 
-input {
-    padding: 0.2rem 0.4rem;
+.auth-form h1 {
+    color: white;
+    margin: 0;
     font-size: 1.5em;
 }
 
-button {
-    padding: 0.2rem 0.4rem;
-    font-size: 1.5em;
-    width: 30%;
+.auth-button {
+    width: 25%;
+    padding: 0.5rem;
+    margin: 0 auto;
+    cursor: pointer;
 }
 
-
-
-
+.home{
+    color: white;
+    width: 500px;
+    margin: 0 auto;
+}
 
 
 

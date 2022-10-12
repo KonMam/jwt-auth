@@ -153,8 +153,8 @@ export default function Task(props: {
                 {data.description}
             </div>
             <div className="task-date-container">
-                <div className="task-date">Created: {data.createdDate?.toString().slice(0,10)}</div>
-                <div className="task-date">Updated: {data.updatedDate?.toString().slice(0,10)}</div>
+                <div className="task-date">Created: {new Date(data.createdDate?.toString()).toLocaleString()}</div>
+                <div className="task-date">Updated: {new Date(data.updatedDate?.toString()).toLocaleString()}</div>
             </div>
         </div>)
 }
